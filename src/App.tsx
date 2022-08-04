@@ -1,69 +1,69 @@
-import { createGlobalStyle } from 'styled-components';
+import { toDoState } from 'atoms';
+import { Board } from 'components';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import { useRecoilState } from 'recoil';
+import styled from 'styled-components';
 
-const GlobalStyle = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
-body {
-	line-height: 1;
-}
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-body {
-  font-family: 'Roboto', sans-serif;
-  background-color: ${(props) => props.theme.bgColor};
-  color:${(props) => props.theme.textColor}
-}
-a {
-  text-decoration: none;
-	color: inherit;
-}
-* {
-  box-sizing: border-box;
-}
+const Container = styled.div`
+  width: 100vw;
+  height: 100vh;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Boards = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 1em;
+  justify-content: center;
+  align-items: flex-start;
 `;
 
 function App() {
+  const [todoList, setTodoList] = useRecoilState(toDoState);
+  const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
+    if (!destination) return;
+    if (destination?.droppableId === source.droppableId) {
+      setTodoList((prevBoards) => {
+        const newBoard = [...prevBoards[source.droppableId]];
+        const target = newBoard[source.index];
+
+        newBoard.splice(source.index, 1);
+        newBoard.splice(destination?.index, 0, target);
+
+        return { ...prevBoards, [source.droppableId]: newBoard };
+      });
+    }
+    if (destination?.droppableId !== source.droppableId) {
+      setTodoList((prevBoards) => {
+        const sourceBoard = [...prevBoards[source.droppableId]];
+        const destinationBoard = [...prevBoards[destination.droppableId]];
+        const target = sourceBoard[source.index];
+
+        sourceBoard.splice(source.index, 1);
+        destinationBoard.splice(destination?.index, 0, target);
+
+        return {
+          ...prevBoards,
+          [source.droppableId]: sourceBoard,
+          [destination.droppableId]: destinationBoard,
+        };
+      });
+    }
+  };
+
   return (
-    <>
-      <GlobalStyle />
-    </>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Container>
+        <Boards>
+          {Object.keys(todoList).map((boardId) => (
+            <Board toDos={todoList[boardId]} boardId={boardId} key={boardId} />
+          ))}
+        </Boards>
+      </Container>
+    </DragDropContext>
   );
 }
 
