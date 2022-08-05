@@ -62,7 +62,6 @@ export const Board = ({ toDos, boardId }: BoardProps) => {
   const { register, setValue, handleSubmit } = useForm<TodoForm>();
   const onValid = ({ toDo }: TodoForm) => {
     const newTodo = { id: Date.now(), text: toDo };
-
     setToDos((prevBoards) => {
       return {
         ...prevBoards,
