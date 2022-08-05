@@ -33,3 +33,9 @@ export const toDoState = atom<TodoList>({
   },
   effects: [localStorageEffect('toDoList')],
 });
+
+export const categoryState = atom({
+  key: 'category',
+  default: ['To Do', 'Doing', 'Done'],
+  effects: [localStorageEffect('category')],
+});

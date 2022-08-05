@@ -1,4 +1,4 @@
-import { DragglableCard } from 'components';
+import { Cards } from 'components';
 import { TodoItems, toDoState } from 'atoms';
 import { Droppable } from 'react-beautiful-dnd';
 import { useForm } from 'react-hook-form';
@@ -81,7 +81,7 @@ export const Board = ({ toDos, boardId }: BoardProps) => {
           placeholder={`Add task on ${boardId}`}
         />
       </Form>
-      <Droppable droppableId={boardId}>
+      <Droppable droppableId={boardId} type="card">
         {(provided, snapshot) => (
           <List
             isDraggingOver={snapshot.isDraggingOver}
@@ -90,7 +90,7 @@ export const Board = ({ toDos, boardId }: BoardProps) => {
             {...provided.droppableProps}
           >
             {toDos.map((toDo, index) => (
-              <DragglableCard
+              <Cards
                 toDoId={toDo.id}
                 toDoText={toDo.text}
                 index={index}

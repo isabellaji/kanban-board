@@ -13,32 +13,30 @@ const Card = styled.div<{ isDragging: boolean }>`
   color: ${(props) =>
     props.isDragging ? props.theme.cardColor : props.theme.textColor};
   background-color: ${(props) =>
-    props.isDragging ? '#74b9ff' : props.theme.cardColor};
+    props.isDragging ? '#e84393' : props.theme.cardColor};
   box-shadow: ${(props) =>
     props.isDragging ? ' 2px 3px 5px #00000010' : 'none'};
 `;
 
-interface DragglableCardProps {
+interface CardsProps {
   toDoId: number;
   toDoText: string;
   index: number;
 }
 
-export const DragglableCard = React.memo(
-  ({ toDoId, toDoText, index }: DragglableCardProps) => {
-    return (
-      <Draggable draggableId={toDoId + ''} index={index}>
-        {(provided, snapshot) => (
-          <Card
-            isDragging={snapshot.isDragging}
-            ref={provided.innerRef}
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-          >
-            {toDoText}
-          </Card>
-        )}
-      </Draggable>
-    );
-  }
-);
+export const Cards = React.memo(({ toDoId, toDoText, index }: CardsProps) => {
+  return (
+    <Draggable draggableId={toDoId + ''} index={index}>
+      {(provided, snapshot) => (
+        <Card
+          isDragging={snapshot.isDragging}
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        >
+          {toDoText}
+        </Card>
+      )}
+    </Draggable>
+  );
+});
