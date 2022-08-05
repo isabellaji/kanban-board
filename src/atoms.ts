@@ -17,6 +17,7 @@ const localStorageEffect =
     if (savedValue != null) {
       setSelf(JSON.parse(savedValue));
     }
+
     onSet((newValue: TodoList[], _: any, isReset: boolean) => {
       isReset
         ? localStorage.removeItem(key)
