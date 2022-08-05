@@ -14,30 +14,28 @@ const Container = styled.div`
   border-radius: 0.3rem;
   background-color: ${(props) => props.theme.boardColor};
 `;
-
 const Title = styled.h2`
   font-size: 18px;
   font-weight: 600;
   text-align: center;
   margin-bottom: 1em;
 `;
-
 const Form = styled.form`
   width: 100%;
   display: flex;
   justify-content: center;
   input {
     width: 90%;
-    padding: 0.5em;
+    padding: 0.7em;
   }
 `;
 
-interface ListProps {
+interface ListStyleProps {
   isDraggingOver: boolean;
   draggingFromThisWith: boolean;
 }
 
-const List = styled.div<ListProps>`
+const List = styled.div<ListStyleProps>`
   padding: 1em;
   background-color: ${(props) =>
     props.isDraggingOver
@@ -47,7 +45,7 @@ const List = styled.div<ListProps>`
       : 'transparent'};
   flex-grow: 1;
   transition: background-color 0.2s ease-in-out;
-  border-radius: 0.3rem;
+  border-radius: 0 0 0.3rem 0.3rem;
 `;
 
 interface BoardProps {

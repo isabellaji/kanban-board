@@ -3,6 +3,9 @@ import { Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 
 const Card = styled.div<{ isDragging: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-size: 0.9em;
   padding: 0.7em;
   margin-bottom: 0.5em;
