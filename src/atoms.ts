@@ -9,6 +9,22 @@ interface TodoList {
   [key: string]: TodoItems[];
 }
 
+const localStorageEffect =
+  (key: string) =>
+  ({ setSelf, onSet }: any) => {
+    const savedValue = localStorage.getItem(key);
+
+    if (savedValue != null) {
+      setSelf(JSON.parse(savedValue));
+    }
+
+    onSet((newValue: TodoList[], _: any, isReset: boolean) => {
+      isReset
+        ? localStorage.removeItem(key)
+        : localStorage.setItem(key, JSON.stringify(newValue));
+    });
+  };
+
 export const toDoState = atom<TodoList>({
   key: 'toDoList',
   default: {
@@ -16,4 +32,5 @@ export const toDoState = atom<TodoList>({
     Doing: [],
     Done: [],
   },
+  effects: [localStorageEffect('toDoList')],
 });
