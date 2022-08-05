@@ -3,7 +3,8 @@ import { Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 
 const Card = styled.div<{ isDragging: boolean }>`
-  padding: 0.5em;
+  font-size: 0.9em;
+  padding: 0.7em;
   margin-bottom: 0.5em;
   border-radius: 0.3rem;
   color: ${(props) =>

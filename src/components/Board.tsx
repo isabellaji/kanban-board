@@ -1,5 +1,5 @@
-import { TodoItems, toDoState } from 'atoms';
 import { DragglableCard } from 'components';
+import { TodoItems, toDoState } from 'atoms';
 import { Droppable } from 'react-beautiful-dnd';
 import { useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
@@ -24,8 +24,11 @@ const Title = styled.h2`
 
 const Form = styled.form`
   width: 100%;
+  display: flex;
+  justify-content: center;
   input {
-    width: 100%;
+    width: 90%;
+    padding: 0.5em;
   }
 `;
 
@@ -44,6 +47,7 @@ const List = styled.div<ListProps>`
       : 'transparent'};
   flex-grow: 1;
   transition: background-color 0.2s ease-in-out;
+  border-radius: 0.3rem;
 `;
 
 interface BoardProps {

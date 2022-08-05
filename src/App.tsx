@@ -1,5 +1,5 @@
-import { toDoState } from 'atoms';
 import { Board } from 'components';
+import { toDoState } from 'atoms';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
@@ -23,7 +23,7 @@ const Boards = styled.div`
 
 function App() {
   const [todoList, setTodoList] = useRecoilState(toDoState);
-  const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
+  const onDragEnd = ({ destination, source }: DropResult) => {
     if (!destination) return;
     if (destination?.droppableId === source.droppableId) {
       setTodoList((prevBoards) => {
