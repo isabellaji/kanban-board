@@ -1,5 +1,5 @@
 import { Cards } from 'components';
-import { TodoItems, toDoState } from 'atoms';
+import { TodoItems, toDoState } from 'store/atoms';
 import { Droppable } from 'react-beautiful-dnd';
 import { useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';

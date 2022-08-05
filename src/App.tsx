@@ -1,5 +1,5 @@
 import { Boards, CreateBoardForm, Trash } from 'components';
-import { categoryState, toDoState } from 'atoms';
+import { categoryState, toDoState } from 'store/atoms';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';

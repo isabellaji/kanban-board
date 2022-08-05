@@ -1,4 +1,4 @@
-import { categoryState, toDoState } from 'atoms';
+import { categoryState, toDoState } from 'store/atoms';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';

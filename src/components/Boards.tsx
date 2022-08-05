@@ -1,5 +1,5 @@
 import { Board } from 'components';
-import { categoryState, toDoState } from 'atoms';
+import { categoryState, toDoState } from 'store/atoms';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';

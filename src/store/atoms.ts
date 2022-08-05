@@ -36,29 +36,3 @@ export const toDoState = atom<TodoList>({
   default: {},
   effects: [localStorageEffect('toDoList')],
 });
-
-// export const todoFilterState = selector<TodoList>({
-//   key: 'todoFilterState',
-//   get: ({ get }) => {
-//     const toDos = get(toDoState);
-
-//     if (Object.keys(toDos).length === 0) {
-//       return defaultTodos;
-//     } else {
-//       return toDos;
-//     }
-//   },
-// });
-
-// export const categoryFilterState = selector({
-//   key: 'categoryFilterState',
-//   get: ({ get }) => {
-//     const category = get(categoryState);
-
-//     if (category.length === 0) {
-//       return Object.keys(defaultTodos);
-//     } else {
-//       return category;
-//     }
-//   },
-// });
