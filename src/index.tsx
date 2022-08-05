@@ -53,7 +53,7 @@ table {
 body {
   font-family: 'Roboto', sans-serif;
   background-color: ${(props) => props.theme.bgColor};
-  color:${(props) => props.theme.textColor}
+  color: ${(props) => props.theme.textColor};
 }
 a {
   text-decoration: none;

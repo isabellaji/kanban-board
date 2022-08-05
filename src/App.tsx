@@ -1,42 +1,32 @@
-import { Boards } from 'components';
+import { Boards, CreateBoardForm, Trash } from 'components';
 import { categoryState, toDoState } from 'atoms';
-import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
-const Container = styled.div`
-  width: 100vw;
-  margin-top: 5em;
+const BoardsContainer = styled.div`
+  width: 100%;
+  margin-top: 8em;
   display: flex;
   align-items: center;
   justify-content: center;
-`;
-const Trash = styled.div`
-  margin: 5em 0;
-  text-align: center;
-`;
-const Icon = styled.span<{ isDraggingOver: boolean }>`
-  display: inline-block;
-  font-size: 3.5em;
-  padding: 2rem;
-  transform: ${(props) => (props.isDraggingOver ? 'scale(1.2)' : 'none')};
-  transition: transform 0.2s ease-in-out;
 `;
 
 function App() {
   const setTodoList = useSetRecoilState(toDoState);
   const setCategoryList = useSetRecoilState(categoryState);
+
   const onDragEnd = ({ destination, source }: DropResult) => {
     if (!destination) return;
     if (destination?.droppableId === source.droppableId) {
       if (source.droppableId === 'allBoards') {
-        setCategoryList((prevBoards) => {
-          const newBoard = [...prevBoards];
-          const target = newBoard[source.index];
+        setCategoryList((prevCategories) => {
+          const newCategory = [...prevCategories];
+          const target = newCategory[source.index];
 
-          newBoard.splice(source.index, 1);
-          newBoard.splice(destination.index, 0, target);
-          return newBoard;
+          newCategory.splice(source.index, 1);
+          newCategory.splice(destination.index, 0, target);
+          return newCategory;
         });
       } else {
         setTodoList((prevBoards) => {
@@ -79,22 +69,11 @@ function App() {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Container>
+      <CreateBoardForm />
+      <BoardsContainer>
         <Boards />
-      </Container>
-      <Droppable droppableId="trash" type="card">
-        {(provided, snapshot) => (
-          <Trash>
-            <Icon
-              isDraggingOver={snapshot.isDraggingOver}
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              🗑
-            </Icon>
-          </Trash>
-        )}
-      </Droppable>
+      </BoardsContainer>
+      <Trash />
     </DragDropContext>
   );
 }

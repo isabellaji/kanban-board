@@ -7,28 +7,33 @@ import styled from 'styled-components';
 const Container = styled.div`
   width: 100%;
   display: flex;
-  gap: 1em;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start;
+  margin: 0 0.5em;
 `;
 
 export const Boards = () => {
   const todoList = useRecoilValue(toDoState);
-  const boardList = useRecoilValue(categoryState);
+  const categoryList = useRecoilValue(categoryState);
 
   return (
     <Droppable droppableId="allBoards" type="board" direction="horizontal">
       {(provided) => (
         <Container ref={provided.innerRef} {...provided.droppableProps}>
-          {boardList.map((boardId, index) => (
+          {categoryList.map((boardId, index) => (
             <Draggable draggableId={boardId} index={index} key={boardId}>
-              {(provided) => (
+              {(provided, snapshot) => (
                 <div
+                  style={{ background: 'red' }}
                   ref={provided.innerRef}
                   {...provided.draggableProps}
                   {...provided.dragHandleProps}
                 >
-                  <Board toDos={todoList[boardId]} boardId={boardId} />
+                  <Board
+                    toDos={todoList[boardId]}
+                    boardId={boardId}
+                    isDragging={snapshot.isDragging}
+                  />
                 </div>
               )}
             </Draggable>

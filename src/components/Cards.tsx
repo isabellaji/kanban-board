@@ -15,7 +15,7 @@ const Card = styled.div<{ isDragging: boolean }>`
   background-color: ${(props) =>
     props.isDragging ? '#e84393' : props.theme.cardColor};
   box-shadow: ${(props) =>
-    props.isDragging ? ' 2px 3px 5px #00000010' : 'none'};
+    props.isDragging ? '2px 3px 5px #00000010' : 'none'};
 `;
 
 interface CardsProps {

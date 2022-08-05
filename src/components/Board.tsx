@@ -5,14 +5,16 @@ import { useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
-const Container = styled.div`
+const Container = styled.div<{ isDragging: boolean }>`
   width: 300px;
   min-height: 200px;
   display: flex;
   flex-direction: column;
   padding-top: 1em;
   border-radius: 0.3rem;
-  background-color: ${(props) => props.theme.boardColor};
+  background-color: ${(props) =>
+    props.isDragging ? '#fdcb6e' : props.theme.boardColor};
+  margin: 0 0.5em;
 `;
 const Title = styled.h2`
   font-size: 18px;
@@ -51,16 +53,17 @@ const List = styled.div<ListStyleProps>`
 interface BoardProps {
   toDos: TodoItems[];
   boardId: string;
+  isDragging: boolean;
 }
 
-interface TodoForm {
+interface FormProps {
   toDo: string;
 }
 
-export const Board = ({ toDos, boardId }: BoardProps) => {
+export const Board = ({ toDos, boardId, isDragging }: BoardProps) => {
   const setToDos = useSetRecoilState(toDoState);
-  const { register, setValue, handleSubmit } = useForm<TodoForm>();
-  const onValid = ({ toDo }: TodoForm) => {
+  const { register, setValue, handleSubmit } = useForm<FormProps>();
+  const onValid = ({ toDo }: FormProps) => {
     const newTodo = { id: Date.now(), text: toDo };
     setToDos((prevBoards) => {
       return {
@@ -72,13 +75,13 @@ export const Board = ({ toDos, boardId }: BoardProps) => {
   };
 
   return (
-    <Container>
+    <Container isDragging={isDragging}>
       <Title>{boardId}</Title>
       <Form onSubmit={handleSubmit(onValid)}>
         <input
           {...register('toDo', { required: true })}
           type="text"
-          placeholder={`Add task on ${boardId}`}
+          placeholder="Add a task"
         />
       </Form>
       <Droppable droppableId={boardId} type="card">
