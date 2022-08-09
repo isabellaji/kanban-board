@@ -1,5 +1,5 @@
 import { Cards } from 'components';
-import { TodoItems, toDoState } from 'store/atoms';
+import { categoryState, TodoItems, toDoState } from 'store/atoms';
 import { Droppable } from 'react-beautiful-dnd';
 import { useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
@@ -10,17 +10,28 @@ const Container = styled.div<{ isDragging: boolean }>`
   min-height: 200px;
   display: flex;
   flex-direction: column;
-  padding-top: 1em;
   border-radius: 0.3rem;
   background-color: ${(props) =>
     props.isDragging ? '#fdcb6e' : props.theme.boardColor};
   margin: 0 0.5em;
+  position: relative;
 `;
 const Title = styled.h2`
   font-size: 18px;
   font-weight: 600;
   text-align: center;
-  margin-bottom: 1em;
+  margin: 2em 0 1.5em;
+`;
+const RemoveBtn = styled.div`
+  position: absolute;
+  top: 1.3em;
+  right: 0.5em;
+  padding: 1em;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 const Form = styled.form`
   width: 100%;
@@ -31,7 +42,6 @@ const Form = styled.form`
     padding: 0.7em;
   }
 `;
-
 interface ListStyleProps {
   isDraggingOver: boolean;
   draggingFromThisWith: boolean;
@@ -61,12 +71,30 @@ interface FormProps {
 }
 
 export const Board = ({ toDos, boardId, isDragging }: BoardProps) => {
-  const setToDos = useSetRecoilState(toDoState);
+  const setTodoList = useSetRecoilState(toDoState);
+  const setCategoryList = useSetRecoilState(categoryState);
   const { register, setValue, handleSubmit } = useForm<FormProps>();
+
+  const handleDeleteBoard = () => {
+    setTodoList((prevBoards) => {
+      const newBoards = { ...prevBoards };
+      delete newBoards[boardId];
+      console.log(newBoards);
+
+      return newBoards;
+    });
+    setCategoryList((prevCategories) => {
+      const newCategory = [...prevCategories];
+      const index = newCategory.indexOf(boardId);
+
+      newCategory.splice(index, 1);
+      return newCategory;
+    });
+  };
 
   const onValid = ({ toDo }: FormProps) => {
     const newTodo = { id: Date.now(), text: toDo };
-    setToDos((prevBoards) => {
+    setTodoList((prevBoards) => {
       return {
         ...prevBoards,
         [boardId]: [newTodo, ...prevBoards[boardId]],
@@ -77,6 +105,7 @@ export const Board = ({ toDos, boardId, isDragging }: BoardProps) => {
 
   return (
     <Container isDragging={isDragging}>
+      <RemoveBtn onClick={handleDeleteBoard}>❎</RemoveBtn>
       <Title>{boardId}</Title>
       <Form onSubmit={handleSubmit(onValid)}>
         <input
