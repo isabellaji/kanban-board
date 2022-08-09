@@ -63,6 +63,7 @@ interface FormProps {
 export const Board = ({ toDos, boardId, isDragging }: BoardProps) => {
   const setToDos = useSetRecoilState(toDoState);
   const { register, setValue, handleSubmit } = useForm<FormProps>();
+
   const onValid = ({ toDo }: FormProps) => {
     const newTodo = { id: Date.now(), text: toDo };
     setToDos((prevBoards) => {
