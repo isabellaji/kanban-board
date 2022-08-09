@@ -49,6 +49,7 @@ interface ListStyleProps {
 
 const List = styled.div<ListStyleProps>`
   padding: 1em;
+  margin-top: 0.5em;
   background-color: ${(props) =>
     props.isDraggingOver
       ? '#fdcb6e'
@@ -112,6 +113,7 @@ export const Board = ({ toDos, boardId, isDragging }: BoardProps) => {
           {...register('toDo', { required: true })}
           type="text"
           placeholder="Add a task"
+          autoComplete="off"
         />
       </Form>
       <Droppable droppableId={boardId} type="card">

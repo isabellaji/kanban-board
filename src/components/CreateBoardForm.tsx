@@ -76,6 +76,7 @@ export const CreateBoardForm = () => {
           {...register('board', { required: true })}
           type="text"
           placeholder="Add a board"
+          autoComplete="off"
         />
       </Form>
     </>
