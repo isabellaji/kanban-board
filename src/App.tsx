@@ -30,37 +30,37 @@ function App() {
         });
       } else {
         setTodoList((prevBoards) => {
-          const newBoard = [...prevBoards[source.droppableId]];
-          const target = newBoard[source.index];
+          const newList = [...prevBoards[source.droppableId]];
+          const target = newList[source.index];
 
-          newBoard.splice(source.index, 1);
-          newBoard.splice(destination?.index, 0, target);
+          newList.splice(source.index, 1);
+          newList.splice(destination?.index, 0, target);
 
-          return { ...prevBoards, [source.droppableId]: newBoard };
+          return { ...prevBoards, [source.droppableId]: newList };
         });
       }
     }
     if (destination?.droppableId !== source.droppableId) {
       if (destination.droppableId === 'trash') {
         setTodoList((prevBoards) => {
-          const newBoard = [...prevBoards[source.droppableId]];
+          const newList = [...prevBoards[source.droppableId]];
 
-          newBoard.splice(source.index, 1);
-          return { ...prevBoards, [source.droppableId]: newBoard };
+          newList.splice(source.index, 1);
+          return { ...prevBoards, [source.droppableId]: newList };
         });
       } else {
         setTodoList((prevBoards) => {
-          const sourceBoard = [...prevBoards[source.droppableId]];
-          const destinationBoard = [...prevBoards[destination.droppableId]];
-          const target = sourceBoard[source.index];
+          const sourceList = [...prevBoards[source.droppableId]];
+          const destinationList = [...prevBoards[destination.droppableId]];
+          const target = sourceList[source.index];
 
-          sourceBoard.splice(source.index, 1);
-          destinationBoard.splice(destination?.index, 0, target);
+          sourceList.splice(source.index, 1);
+          destinationList.splice(destination?.index, 0, target);
 
           return {
             ...prevBoards,
-            [source.droppableId]: sourceBoard,
-            [destination.droppableId]: destinationBoard,
+            [source.droppableId]: sourceList,
+            [destination.droppableId]: destinationList,
           };
         });
       }
