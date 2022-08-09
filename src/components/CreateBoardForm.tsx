@@ -1,5 +1,5 @@
 import { categoryState, toDoState } from 'store/atoms';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
@@ -47,11 +47,10 @@ export const CreateBoardForm = () => {
   const [isHide, setIsHide] = useState(true);
   const setTodoList = useSetRecoilState(toDoState);
   const setCategoryList = useSetRecoilState(categoryState);
-  const { register, setValue, handleSubmit } = useForm<FormProps>();
+  const { register, setValue, handleSubmit, setFocus } = useForm<FormProps>();
 
   const handleDisplayInput = () => {
     setIsHide(false);
-    setValue('board', '');
   };
 
   const onValid = ({ board }: FormProps) => {
@@ -62,6 +61,10 @@ export const CreateBoardForm = () => {
     setValue('board', '');
     setIsHide(true);
   };
+
+  useEffect(() => {
+    !isHide && setFocus('board');
+  }, [isHide]);
 
   return (
     <>
