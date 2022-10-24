@@ -64,7 +64,7 @@ export const CreateBoardForm = () => {
 
   useEffect(() => {
     !isHide && setFocus('board');
-  }, [isHide]);
+  }, [isHide, setFocus]);
 
   return (
     <>
